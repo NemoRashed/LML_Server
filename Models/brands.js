@@ -5,9 +5,9 @@ const BrandSchema = new Schema(
   {
     Name: String,
     Image: String,
-    Repair: {
+    Service: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Repair",
+      ref: "Service",
     },
   },
 

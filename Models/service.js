@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const RepairSchema = new Schema(
+const ServiceSchema = new Schema(
   {
     Name: String,
     Image: String,
@@ -9,6 +9,6 @@ const RepairSchema = new Schema(
   { timestamps: false }
 );
 
-const Repair = mongoose.model("Repair", RepairSchema);
+const Service = mongoose.model("Service", ServiceSchema);
 
-module.exports = Repair;
+module.exports = Service;
