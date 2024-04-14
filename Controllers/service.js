@@ -1,4 +1,5 @@
 const ServiceModel = require("../Models/service");
+const cloudinary = require("../utils/cloudinary");
 
 exports.getServices = async (req, res) => {
   try {
@@ -17,14 +18,21 @@ exports.getServices = async (req, res) => {
 
 exports.createService = async (req, res) => {
   try {
-    const createService = await ServiceModel.create(req.body);
+    // Upload image to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    const createService = await ServiceModel.create({
+      Name: req.body.Name,
+      Image: result.secure_url,
+    });
+
     res.status(200).json({
       message: "Service created",
       data: createService,
     });
-  } catch (e) {
+  } catch (error) {
     res.status(400).json({
-      message: e.message,
+      message: error.message,
     });
   }
 };

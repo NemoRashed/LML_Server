@@ -1,8 +1,15 @@
 const SubTypes = require("../Models/subType");
+const cloudinary = require("../utils/cloudinary");
 
 exports.createSubTypes = async (req, res) => {
   try {
-    const SubType = await SubTypes.create(req.body);
+    // Upload image to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    const SubType = await SubTypes.create({
+      Name: req.body.Name,
+      Image: result.secure_url,
+    });
 
     res.status(200).json({
       message: "created a SubType ",

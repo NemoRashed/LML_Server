@@ -1,12 +1,19 @@
 const express = require("express");
-
 const Router = express.Router();
-
 const BrandTypes = require("../Controllers/brandTypes");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 Router.route("/")
 
-  .post(BrandTypes.createBrandTypes)
+  .post(upload.single("Image"), BrandTypes.createBrandTypes)
   .get(BrandTypes.getBrandTypes);
 
 Router.route("/:id")

@@ -1,12 +1,19 @@
 const express = require("express");
-
 const Router = express.Router();
-
 const SubTypes = require("../Controllers/subTypes");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 Router.route("/")
 
-  .post(SubTypes.createSubTypes)
+  .post(upload.single("Image"), SubTypes.createSubTypes)
   .get(SubTypes.getSubTypes);
 
 Router.route("/:id")

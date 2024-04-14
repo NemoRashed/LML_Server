@@ -1,9 +1,15 @@
 const Brands = require("../Models/brands");
-//const Repairs = require("../Brandss/repair");
+const cloudinary = require("../utils/cloudinary");
 
 exports.createBrands = async (req, res) => {
   try {
-    const createBrands = await Brands.create(req.body);
+    // Upload image to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    const createBrands = await Brands.create({
+      Name: req.body.Name,
+      Image: result.secure_url,
+    });
 
     res.status(200).json({
       message: "created a Brands ",
